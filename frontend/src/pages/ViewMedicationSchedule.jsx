@@ -10,6 +10,7 @@ import {
   Grid,
   GridItem,
 } from "@chakra-ui/react";
+import customFetch from "../utils/axios";
 
 const ViewMedicationSchedule = () => {
   const [medicationSchedules, setMedicationSchedules] = useState([]);
@@ -18,8 +19,8 @@ const ViewMedicationSchedule = () => {
   useEffect(() => {
     const fetchMedicationSchedules = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:5000/api/medication-schedule"
+        const response = await customFetch.get(
+          "http://localhost:5000/api/medication-schedule",
         );
         setMedicationSchedules(response.data);
       } catch (err) {

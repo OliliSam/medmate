@@ -1,24 +1,34 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Box, Text, SimpleGrid, Heading, Alert, AlertIcon, Spinner, Card, CardBody } from '@chakra-ui/react';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import {
+  Box,
+  Text,
+  SimpleGrid,
+  Heading,
+  Alert,
+  AlertIcon,
+  Spinner,
+  Card,
+  CardBody,
+} from "@chakra-ui/react";
 
 const ViewPatients = () => {
   const [patients, setPatients] = useState([]); // Initialize as an array
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchPatients = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/patients');
-        
+        const response = await axios.get("http://localhost:5000/api/patients");
+
         // Check if response.data is an array
         if (Array.isArray(response.data)) {
           setPatients(response.data);
         } else {
-          setError('Invalid data format received.');
+          setError("Invalid data format received.");
         }
       } catch (err) {
-        setError('Failed to fetch patients.');
+        setError("Failed to fetch patients.");
       }
     };
 
@@ -26,7 +36,15 @@ const ViewPatients = () => {
   }, []);
 
   return (
-    <Box p={6} maxW="1200px" mx="auto" mt={10} borderWidth="1px" borderRadius="lg" boxShadow="lg">
+    <Box
+      p={6}
+      maxW="1200px"
+      mx="auto"
+      mt={10}
+      borderWidth="1px"
+      borderRadius="lg"
+      boxShadow="lg"
+    >
       <Heading as="h1" size="lg" mb={6} textAlign="center">
         Patient List
       </Heading>
@@ -48,7 +66,12 @@ const ViewPatients = () => {
       ) : (
         <SimpleGrid columns={[1, null, 3]} spacing={6}>
           {patients.map((patient) => (
-            <Card key={patient._id} borderWidth="1px" borderRadius="md" boxShadow="md">
+            <Card
+              key={patient._id}
+              borderWidth="1px"
+              borderRadius="md"
+              boxShadow="md"
+            >
               <CardBody>
                 <Text fontWeight="bold" fontSize="xl">
                   {patient.first_name} {patient.last_name}

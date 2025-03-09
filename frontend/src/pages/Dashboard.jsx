@@ -9,16 +9,15 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../services/users/userSlice";
 
 const Dashboard = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [userRole, setUserRole] = useState("");
+  const { user } = useSelector((state) => state.users);
 
-  useEffect(() => {
-    // Retrieve the role of the logged-in user from localStorage
-    const role = localStorage.getItem("userRole");
-    setUserRole(role);
-  }, []);
+  if (!user) return null;
 
   // Define sections based on role
   const adminSections = [
@@ -50,15 +49,14 @@ const Dashboard = () => {
 
   // Map sections based on the user role
   const sections =
-    userRole === "admin"
+    user.role === "admin"
       ? adminSections
-      : userRole === "caregiver"
-      ? caregiverSections
-      : doctorSections;
+      : user.role === "caregiver"
+        ? caregiverSections
+        : doctorSections;
 
   const handleLogout = () => {
-    // Perform logout logic here
-    localStorage.removeItem("userRole"); // Clear the stored role on logout
+    dispatch(logoutUser());
     navigate("/login"); // Redirect to login page after logout
   };
 
@@ -98,6 +96,7 @@ const Dashboard = () => {
       </VStack>
     </Container>
   );
+  const [userRole, setUserRole] = useState("");
 };
 
 export default Dashboard;
